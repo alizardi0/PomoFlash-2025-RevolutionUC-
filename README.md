@@ -1,3 +1,7 @@
+## Setup
+
+Place a .env file in both ./.devcontainer/.env and ./.env that contain the same environment variables as listed in example.env. If you're using Linux or Mac this can be a symlink.
+
 ## Getting Started
 
 First, run the development server:
