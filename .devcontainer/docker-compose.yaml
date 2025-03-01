@@ -1,0 +1,12 @@
+services:
+  workspace:
+    image: mcr.microsoft.com/devcontainers/javascript-node:20
+    container_name: pomoflash
+    volumes:
+      - ../:/workspace:rw
+      - ~/.ssh:/home/node/.ssh:ro
+    ports:
+      - 3000:3000
+    env_file:
+      - ../.env
+    tty: true

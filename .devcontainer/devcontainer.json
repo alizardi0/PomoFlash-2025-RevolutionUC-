@@ -1,0 +1,25 @@
+{
+  "name": "pomoflash",
+  "dockerComposeFile": "./docker-compose.yaml",
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "britesnow.vscode-toggle-quotes",
+        "dbaeumer.vscode-eslint",
+        "mikestead.dotenv",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "naumovs.color-highlight",
+        "christian-kohler.path-intellisense",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "/home/node/bootstrap.sh",
+  "remoteUser": "node"
+}
