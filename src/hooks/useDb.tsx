@@ -16,11 +16,16 @@ export interface Tasks {
     taskid: number;
     userid: number;
     taskname: string;
+    taskdescription: string;
     taskcompletion: boolean;
   }[];
 }
 
-export function useTasks(): { getTasks: (userId: string) => Promise<Tasks | string> } {
+export function useTasks(): {
+  getTasks: (userId: string) => Promise<Tasks | string>;
+  modifyTask: (task: Tasks["tasks"][number]) => Promise<Tasks | string>;
+  addTask: (task: Omit<Tasks["tasks"][number], "taskid">) => Promise<Tasks | string>;
+} {
   const getTasks = async (userId: string) => {
     try {
       const response = await fetch("http://api.dylanvaneaton.com:59632/api/fetchtasks", {
@@ -45,7 +50,54 @@ export function useTasks(): { getTasks: (userId: string) => Promise<Tasks | stri
       return "Error: unknown server error";
     }
   };
-  return { getTasks };
+
+  const modifyTask = async (task: Tasks["tasks"][number]) => {
+    try {
+      const response = await fetch("http://api.dylanvaneaton.com:59632/api/modifytask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "User-Agent": "Pomoflash/1.0",
+        },
+        body: JSON.stringify(task),
+      });
+
+      if (!response.ok) {
+        return `Error: ${response.status}`;
+      }
+
+      const result = await response.json();
+      return result as Tasks;
+    } catch {
+      return "Error: unknown server error";
+    }
+  };
+
+  const addTask = async (task: Omit<Tasks["tasks"][number], "taskid">) => {
+    try {
+      const response = await fetch("http://api.dylanvaneaton.com:59632/api/addtask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "User-Agent": "Pomoflash/1.0",
+        },
+        body: JSON.stringify(task),
+      });
+
+      if (!response.ok) {
+        return `Error: ${response.status}`;
+      }
+
+      const result = await response.json();
+      return result as Tasks;
+    } catch {
+      return "Error: unknown server error";
+    }
+  };
+
+  return { getTasks, modifyTask, addTask };
 };
 
 export function useLogin(): { user: (userLogin: string) => Promise<User | string> } {
