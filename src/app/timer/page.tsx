@@ -1,12 +1,14 @@
 "use client";
 
 
-import { Button, Heading } from "@chakra-ui/react";
+import { Button, Heading, HStack, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
+import { Field } from "@/components/ui/field";
 
 
-export default function Login() {
+
+export default function Timer() {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -21,12 +23,28 @@ export default function Login() {
           height: "100vh",
         }}
       >
-        <Heading fontSize="4xl">00:00</Heading>
+        <HStack gap="4" maxW="sm">
+          <Field label="Study Time" required>
+            <Input placeholder="In Minutes..." />
+          </Field>
+          <Field label="Break Time" required>
+            <Input placeholder="In Minutes..." />
+          </Field>
+          <Field label="Long Break Time" required>
+            <Input placeholder="In Minutes..." />
+          </Field>
+        </HStack>
         <br></br>
-
-        <Button loading={loading} onClick={() => setLoading(true)}>Start</Button>
+        <Heading fontSize="8xl">00:00</Heading>
+        <br></br>
+        <br></br>
+        <HStack gap="4" maxW="sm">
+          <Button loading={loading} onClick={() => setLoading(true)}>Start</Button>
+        </HStack>
 
       </div>
     </>
   );
 }
+
+
