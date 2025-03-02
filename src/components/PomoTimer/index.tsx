@@ -1,21 +1,45 @@
 "use client";
 import { Center, Box, Button, Text, Group } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
-import { useTimer } from "@/hooks/useDb";
+import { TimerData } from "@/app/(dashboard)/page";
 
 
 
-export function PomoTimer() {
+export interface PomoTimerProps {
+  onStartButton?: () => void;
+  onResetButton?: () => void;
+  timerData?: TimerData;
+}
+
+export function PomoTimer({ onStartButton, onResetButton, timerData }: PomoTimerProps) {
   const FOCUS_DURATION = 25 * 60; // 25 minutes
   const BREAK_DURATION = 5 * 60; // 5 minutes
 
   const [time, setTime] = useState(FOCUS_DURATION);
   const [isRunning, setIsRunning] = useState(false);
   const [isFocusSession, setIsFocusSession] = useState(false);
-  const timer = useTimer();
-  // const isTimer = timer.checkTimer(Number.parseInt(sessionStorage.getItem("userid") ?? ""))
 
+  const timeLeft = useMemo(() => {
+    function getTimeDifference(startTimeUtc: string): string {
+      const startDate = new Date(startTimeUtc);
+
+      const currentDate = new Date();
+
+      const diffInMillis = currentDate.getTime() - startDate.getTime();
+
+      const hours = Math.floor(diffInMillis / (1000 * 60 * 60));
+      const minutes = Math.floor((diffInMillis % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diffInMillis % (1000 * 60)) / 1000);
+
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    }
+    if (!timerData) return null;
+    return getTimeDifference(timerData.timerstarttime.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerData?.timerstarttime]);
+
+  console.log(timeLeft);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -51,9 +75,7 @@ export function PomoTimer() {
     setIsRunning(true); // Automatically start the next session
   };
 
-  const handleStart = () => {
-    if (timer.checkTimer(Number.parseInt(sessionStorage.getItem("userid") ?? "")));
-
+  const startTimer = () => {
     setIsRunning(true);
   };
 
@@ -74,17 +96,14 @@ export function PomoTimer() {
     <>
       <Center my="auto" h="80vh">
         <Box textAlign="center" margin="1.3rem">
-          <Text fontSize="6xl" marginBottom="1rem">
-            {isFocusSession ? "Focus" : "Break"}
-            {" "}
-            Time:
+          <Text fontSize="9xl" marginBottom="1rem">
             {formatTime(time)}
           </Text>
-          <Group>
-            <Button variant="surface" colorPalette="green" w="7rem" onClick={handleStart}>
+          <Group gap={6}>
+            <Button variant="surface" colorPalette="green" w="7rem" onClick={onStartButton}>
               Start
             </Button>
-            <Button variant="surface" colorPalette="red" w="7rem" onClick={handleReset}>
+            <Button variant="surface" colorPalette="red" w="7rem" onClick={onResetButton}>
               Reset
             </Button>
           </Group>

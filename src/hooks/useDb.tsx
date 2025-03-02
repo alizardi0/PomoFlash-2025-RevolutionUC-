@@ -28,7 +28,7 @@ export function useTasks(): {
 } {
   const getTasks = async (userId: string) => {
     try {
-      const response = await fetch("http://api.dylanvaneaton.com:59632/api/fetchtasks", {
+      const response = await fetch("https://dylanvaneaton.com/api/fetchtasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export function useTasks(): {
 
   const modifyTask = async (task: Tasks["tasks"][number]) => {
     try {
-      const response = await fetch("http://api.dylanvaneaton.com:59632/api/modifytask", {
+      const response = await fetch("https://dylanvaneaton.com/api/modifytask", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export function useTasks(): {
 
   const addTask = async (task: Omit<Tasks["tasks"][number], "taskid">) => {
     try {
-      const response = await fetch("http://api.dylanvaneaton.com:59632/api/addtask", {
+      const response = await fetch("https://dylanvaneaton.com/api/addtask", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@ export function useTasks(): {
 export function useLogin(): { user: (userLogin: string) => Promise<User | string> } {
   const user = async (userLogin: string) => {
     try {
-      const response = await fetch("http://api.dylanvaneaton.com:59632/api/login", {
+      const response = await fetch("https://dylanvaneaton.com/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,10 +128,13 @@ export function useLogin(): { user: (userLogin: string) => Promise<User | string
   return { user };
 };
 
-export function useTimer(): { checkTimer: (userId: number) => Promise<Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid"> | string>; newTimer: (userId: number, timerLength: string) => Promise<Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid"> | string> } {
+export function useTimer(): {
+  checkTimer: (userId: number) => Promise<Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid"> | string>;
+  newTimer: (userId: number, timerLength: string) => Promise<Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid"> | string>;
+} {
   const checkTimer = async (userId: number) => {
     try {
-      const response = await fetch("http://api.dylanvaneaton.com:59632/api/checktimer", {
+      const response = await fetch("https://dylanvaneaton.com/api/checktimer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +159,7 @@ export function useTimer(): { checkTimer: (userId: number) => Promise<Omit<User[
 
   const newTimer = async (userId: number, timerLength: string) => {
     try {
-      const response = await fetch("http://api.dylanvaneaton.com:59632/api/newtimer", {
+      const response = await fetch("https://dylanvaneaton.com/api/newtimer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
