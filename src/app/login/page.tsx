@@ -3,7 +3,6 @@
 
 import { Button, Input, Stack, Heading } from "@chakra-ui/react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 
 import { Field } from "@/components/ui/field";
 
