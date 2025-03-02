@@ -1,61 +1,86 @@
 "use client";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Center, Box, Button, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
 
 
 export function PomoTimer() {
-  const [time, setTime] = useState(0);
+  const FOCUS_DURATION = 25 * 60; // 25 minutes
+  const BREAK_DURATION = 5 * 60; // 5 minutes
+
+  const [time, setTime] = useState(FOCUS_DURATION);
   const [isRunning, setIsRunning] = useState(false);
-  const [isStopped, setIsStopped] = useState(false);
+  const [isFocusSession, setIsFocusSession] = useState(false);
 
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval;
 
-    if (isRunning && !isStopped) {
+    if (isRunning) {
       interval = setInterval(() => {
-        setTime(prevTime => prevTime + 1);
+        setTime((prevTime) => {
+          if (prevTime > 0) {
+            return prevTime - 1;
+          } else {
+            clearInterval(interval);
+            setIsRunning(false);
+            handleSessionSwitch();
+            return 0;
+          }
+        });
       }, 1000);
     }
+
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isRunning, isStopped]);
+  }, [isRunning]);
 
-  const handleStartPause = () => {
-    setIsRunning(prev => !prev);
-    if (isStopped) setIsStopped(false);
+  const handleSessionSwitch = () => {
+    if (isFocusSession) {
+      setTime(BREAK_DURATION);
+    } else {
+      setTime(FOCUS_DURATION);
+    }
+    setIsFocusSession(prev => !prev);
+    setIsRunning(true); // Automatically start the next session
   };
 
-  const handleStop = () => {
-    setIsRunning(false);
-    setIsStopped(true);
+  const handleStart = () => {
+    setIsRunning(true);
   };
 
   const handleReset = () => {
-    setTime(0);
+    setTime(isFocusSession ? FOCUS_DURATION : BREAK_DURATION);
     setIsRunning(false);
-    setIsStopped(false);
+  };
+
+  const formatTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   return (
-    <Box textAlign="center" margin="1.3rem">
-      <Text fontSize="2xl" marginBottom="1rem">
-        Time:
-        {time}
-        {" "}
-        seconds
-      </Text>
-      <Button colorScheme="blue" onClick={handleStartPause}>
-        {isRunning && !isStopped ? "Pause" : "Start"}
-      </Button>
-      <Button colorScheme="red" onClick={handleStop}>
-        Stop
-      </Button>
-      <Button colorScheme="green" onClick={handleReset}>
-        Reset
-      </Button>
-    </Box>
+    <>
+      <Center my="auto" h="80vh">
+        <Box textAlign="center" margin="1.3rem">
+          <Text fontSize="6xl" marginBottom="1rem">
+            {isFocusSession ? "Focus" : "Break"}
+            {" "}
+            Time:
+            {formatTime(time)}
+          </Text>
+          <Button colorScheme="blue" w="7rem" onClick={handleStart}>
+            Start
+          </Button>
+          <Button colorScheme="green" w="7rem" onClick={handleReset}>
+            Reset
+          </Button>
+        </Box>
+      </Center>
+    </>
   );
 }
