@@ -22,9 +22,7 @@ export default function RootLayout({
         className="antialiased"
       >
         <Provider defaultTheme="light">
-          <div>
-            {children}
-          </div>
+          {children}
         </Provider>
       </body>
     </html>
