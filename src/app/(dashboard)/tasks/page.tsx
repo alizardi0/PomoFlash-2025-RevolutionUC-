@@ -56,10 +56,12 @@ export default function Tasks() {
               <PopoverArrow />
               <Group>
                 <Input value={taskAddInput} onChange={(e) => { setTaskAddInput(e.target.value); }} />
-                <Button onClick={() => tasks.addTask({ taskname: taskAddInput, taskdescription: "", taskcompletion: false, userid: Number.parseInt(userId ?? "") }).then((res) => {
-                  setPopoverOpen(false);
-                  return typeof res !== "string" && setTaskList(res.tasks);
-                })}
+                <Button
+                  onClick={() => tasks.addTask({ taskname: taskAddInput, taskdescription: "", taskcompletion: false, userid: Number.parseInt(userId ?? "") }).then((res) => {
+                    setPopoverOpen(false);
+                    setTaskAddInput("");
+                    return typeof res !== "string" && setTaskList(res.tasks);
+                  })}
                 >
                   Add Task
                 </Button>

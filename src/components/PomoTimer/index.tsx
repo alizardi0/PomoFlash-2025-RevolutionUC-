@@ -1,5 +1,5 @@
 "use client";
-import { Center, Box, Button, Text } from "@chakra-ui/react";
+import { Center, Box, Button, Text, Group } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
 
@@ -14,7 +14,7 @@ export function PomoTimer() {
 
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout;
 
     if (isRunning) {
       interval = setInterval(() => {
@@ -34,6 +34,7 @@ export function PomoTimer() {
     return () => {
       if (interval) clearInterval(interval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning]);
 
   const handleSessionSwitch = () => {
@@ -55,7 +56,7 @@ export function PomoTimer() {
     setIsRunning(false);
   };
 
-  const formatTime = (timeInSeconds) => {
+  const formatTime = (timeInSeconds: number) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
     return `${minutes.toString().padStart(2, "0")}:${seconds
@@ -73,12 +74,14 @@ export function PomoTimer() {
             Time:
             {formatTime(time)}
           </Text>
-          <Button colorScheme="blue" w="7rem" onClick={handleStart}>
-            Start
-          </Button>
-          <Button colorScheme="green" w="7rem" onClick={handleReset}>
-            Reset
-          </Button>
+          <Group>
+            <Button variant="surface" colorPalette="green" w="7rem" onClick={handleStart}>
+              Start
+            </Button>
+            <Button variant="surface" colorPalette="red" w="7rem" onClick={handleReset}>
+              Reset
+            </Button>
+          </Group>
         </Box>
       </Center>
     </>

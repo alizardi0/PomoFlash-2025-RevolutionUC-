@@ -9,7 +9,7 @@ export default function Flashcards() {
   return (
     <>
       <Box maxW="38rem" mx="auto">
-        <Box borderRadius="xl" h="20rem" px={30} marginTop="4rem" shadow="2xl" display="flex">
+        <Box borderRadius="xl" h="20rem" px={30} marginTop="3rem" shadow="2xl" display="flex">
           <Editable.Root textAlign="center" m="auto" placeholder="Type your study question here">
             <Editable.Preview fontSize="2.1rem" lineHeight={1.2} w="full" h="full" />
             <Editable.Textarea fontSize="2.1rem" padding="3rem" h="full" lineHeight={1.2} />
