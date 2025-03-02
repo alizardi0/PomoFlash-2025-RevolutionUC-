@@ -2,8 +2,7 @@
 import { Tabs } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { BsCardText } from "react-icons/bs";
-import { LuHouse, LuClock4, LuNotebookPen } from "react-icons/lu";
-import { PiGearSixBold } from "react-icons/pi";
+import { LuClock4, LuNotebookPen } from "react-icons/lu";
 
 
 
@@ -16,10 +15,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Tabs.Root fitted defaultValue={currentPath} variant="outline" onValueChange={(e) => { router.push(e.value); }}>
         <Tabs.List>
           <Tabs.Trigger value="/">
-            <LuHouse />
-            Overview
-          </Tabs.Trigger>
-          <Tabs.Trigger value="/timer">
             <LuClock4 />
             Timer
           </Tabs.Trigger>
@@ -30,10 +25,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Tabs.Trigger value="/flashcards">
             <BsCardText />
             Flashcards
-          </Tabs.Trigger>
-          <Tabs.Trigger value="/settings">
-            <PiGearSixBold />
-            Settings
           </Tabs.Trigger>
         </Tabs.List>
       </Tabs.Root>
