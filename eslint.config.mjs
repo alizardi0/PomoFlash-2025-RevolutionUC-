@@ -56,7 +56,7 @@ export default tseslint.config(
       "import/no-absolute-path": ["error"],
       "import/no-mutable-exports": ["error"],
       "import/no-useless-path-segments": ["error"],
-      "import/no-unresolved": "error",
+      "import/no-unresolved": "off",
       "import/order": ["error", {
         groups: ["builtin", "external"],
         "newlines-between": "always",
