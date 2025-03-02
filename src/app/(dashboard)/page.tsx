@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/indent */
 "use client";
 import { Alert, Spinner } from "@chakra-ui/react";
 import { useMemo, useState } from "react";

@@ -75,14 +75,14 @@ export function PomoTimer({ onStartButton, onResetButton, timerData }: PomoTimer
     setIsRunning(true); // Automatically start the next session
   };
 
-  const startTimer = () => {
-    setIsRunning(true);
-  };
+  // const startTimer = () => {
+  //   setIsRunning(true);
+  // };
 
-  const handleReset = () => {
-    setTime(isFocusSession ? FOCUS_DURATION : BREAK_DURATION);
-    setIsRunning(false);
-  };
+  // const handleReset = () => {
+  //   setTime(isFocusSession ? FOCUS_DURATION : BREAK_DURATION);
+  //   setIsRunning(false);
+  // };
 
   const formatTime = (timeInSeconds: number) => {
     const minutes = Math.floor(timeInSeconds / 60);
