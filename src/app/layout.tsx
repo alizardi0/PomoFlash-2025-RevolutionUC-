@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Provider } from "@/components/ui/provider";
+
 import "./globals.css";
 
 
@@ -20,8 +21,10 @@ export default function RootLayout({
       <body
         className="antialiased"
       >
-        <Provider>
-          {children}
+        <Provider defaultTheme="light">
+          <div>
+            {children}
+          </div>
         </Provider>
       </body>
     </html>
