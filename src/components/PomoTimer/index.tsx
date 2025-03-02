@@ -2,6 +2,8 @@
 import { Center, Box, Button, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
+import { useTimer } from "@/hooks/useDb";
+
 
 
 export function PomoTimer() {
@@ -11,10 +13,12 @@ export function PomoTimer() {
   const [time, setTime] = useState(FOCUS_DURATION);
   const [isRunning, setIsRunning] = useState(false);
   const [isFocusSession, setIsFocusSession] = useState(false);
+  const timer = useTimer();
+  // const isTimer = timer.checkTimer(Number.parseInt(sessionStorage.getItem("userid") ?? ""))
 
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout;
 
     if (isRunning) {
       interval = setInterval(() => {
@@ -47,6 +51,8 @@ export function PomoTimer() {
   };
 
   const handleStart = () => {
+    if (timer.checkTimer(Number.parseInt(sessionStorage.getItem("userid") ?? "")));
+
     setIsRunning(true);
   };
 
@@ -55,7 +61,7 @@ export function PomoTimer() {
     setIsRunning(false);
   };
 
-  const formatTime = (timeInSeconds) => {
+  const formatTime = (timeInSeconds: number) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
     return `${minutes.toString().padStart(2, "0")}:${seconds
