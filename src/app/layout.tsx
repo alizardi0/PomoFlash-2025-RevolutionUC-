@@ -20,7 +20,7 @@ export default function RootLayout({
       <body
         className="antialiased"
       >
-        <Provider>
+        <Provider defaultTheme="light">
           {children}
         </Provider>
       </body>
