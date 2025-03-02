@@ -4,9 +4,9 @@ export interface User {
     userid: number;
     userfirst: string;
     userlogin: string;
-    timeractive: any;
-    timerstarttime: any;
-    timerlength: any;
+    timeractive: boolean;
+    timerstarttime: Date;
+    timerlength: string;
     currenttaskid: any;
   };
 }
@@ -127,3 +127,58 @@ export function useLogin(): { user: (userLogin: string) => Promise<User | string
   };
   return { user };
 };
+
+export function useTimer(): { checkTimer: (userId: number) => Promise<Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid"> | string>; newTimer: (userId: number, timerLength: string) => Promise<Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid"> | string> } {
+  const checkTimer = async (userId: number) => {
+    try {
+      const response = await fetch("http://api.dylanvaneaton.com:59632/api/checktimer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "User-Agent": "Pomoflash/1.0",
+        },
+        body: JSON.stringify({
+          userid: userId,
+        }),
+      });
+
+      if (!response.ok) {
+        return `Error: ${response.status}`;
+      }
+
+      const result = await response.json();
+      return result as Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid">;
+    } catch {
+      return "Error: unknown server error";
+    }
+  };
+
+  const newTimer = async (userId: number, timerLength: string) => {
+    try {
+      const response = await fetch("http://api.dylanvaneaton.com:59632/api/newtimer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "User-Agent": "Pomoflash/1.0",
+        },
+        body: JSON.stringify({
+          userid: userId,
+          timerlength: timerLength,
+        }),
+      });
+
+      if (!response.ok) {
+        return `Error: ${response.status}`;
+      }
+
+      const result = await response.json();
+      return result as Omit<User["user"], "userfirst" | "userlogin" | "currenttaskid">;
+    } catch {
+      return "Error: unknown server error";
+    }
+  };
+  return { checkTimer, newTimer };
+};
+
