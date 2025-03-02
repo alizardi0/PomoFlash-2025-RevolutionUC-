@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Tabs.Trigger>
           <Tabs.Trigger value="/tasks">
             <LuNotebookPen />
-            Tasks to do
+            Tasks
           </Tabs.Trigger>
           <Tabs.Trigger value="/flashcards">
             <BsCardText />
